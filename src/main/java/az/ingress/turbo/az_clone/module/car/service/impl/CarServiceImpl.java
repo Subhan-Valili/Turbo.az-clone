@@ -1,5 +1,11 @@
 package az.ingress.turbo.az_clone.module.car.service.impl;
 
+import az.ingress.turbo.az_clone.common.exception.BaseException;
+import az.ingress.turbo.az_clone.common.exception.ErrorCode;
+import az.ingress.turbo.az_clone.common.exception.exceptions.BrandNotFoundException;
+import az.ingress.turbo.az_clone.common.exception.exceptions.CarNotFoundException;
+import az.ingress.turbo.az_clone.common.exception.exceptions.ModelNotFoundException;
+import az.ingress.turbo.az_clone.common.exception.exceptions.NoImagesProvidedException;
 import az.ingress.turbo.az_clone.common.mapper.CarMapper;
 import az.ingress.turbo.az_clone.module.car.dto.CarRequestDto;
 import az.ingress.turbo.az_clone.module.car.dto.CarResponseDto;
@@ -14,7 +20,6 @@ import az.ingress.turbo.az_clone.module.car.service.CarService;
 import az.ingress.turbo.az_clone.module.storage.FileStorageService; // aşağıda yaradırıq
 import az.ingress.turbo.az_clone.module.user.entity.UserEntity;
 import az.ingress.turbo.az_clone.module.user.repository.jpa.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,13 +52,24 @@ public class CarServiceImpl implements CarService {
                 .getAuthentication().getName();
 
         UserEntity user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("İstifadəçi tapılmadı: " + email));
+                .orElseThrow(() -> {
+                    log.warn("Maşın əlavə etmə uğursuz oldu, istifadəçi tapılmadı: email={}", email);
+                    return new BaseException(ErrorCode.USER_NOT_FOUND);
+                });
 
         BrandEntity brand = brandRepository.findById(request.brandId())
-                .orElseThrow(() -> new EntityNotFoundException("Marka tapılmadı: " + request.brandId()));
+                .orElseThrow(() -> {
+                    log.warn("Maşın əlavə etmə uğursuz oldu, marka tapılmadı: brandId={}, user={}",
+                            request.brandId(), email);
+                    return new BrandNotFoundException(request.brandId());
+                });
 
         ModelEntity model = modelRepository.findById(request.modelId())
-                .orElseThrow(() -> new EntityNotFoundException("Model tapılmadı: " + request.modelId()));
+                .orElseThrow(() -> {
+                    log.warn("Maşın əlavə etmə uğursuz oldu, model tapılmadı: modelId={}, user={}",
+                            request.modelId(), email);
+                    return new ModelNotFoundException(request.modelId());
+                });
 
         CarEntity car = carMapper.toEntity(request);
         car.setUser(user);
@@ -70,10 +86,14 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public CarResponseDto uploadImages(Long carId, List<MultipartFile> files) {
         CarEntity car = carRepository.findById(carId)
-                .orElseThrow(() -> new EntityNotFoundException("Maşın tapılmadı: " + carId));
+                .orElseThrow(() -> {
+                    log.warn("Şəkil yükləmə uğursuz oldu, maşın tapılmadı: carId={}", carId);
+                    return new CarNotFoundException(carId);
+                });
 
         if (files == null || files.isEmpty()) {
-            throw new IllegalArgumentException("Ən azı 1 şəkil göndərilməlidir");
+            log.warn("Şəkil yükləmə uğursuz oldu, boş fayl siyahısı: carId={}", carId);
+            throw new NoImagesProvidedException();
         }
 
         Set<ImageEntity> newImages = files.stream()
@@ -103,7 +123,10 @@ public class CarServiceImpl implements CarService {
     @Cacheable(value = "car", key = "#id")
     public CarResponseDto findById(Long id) {
         CarEntity carEntity = carRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> {
+                    log.warn("Maşın tapılmadı: carId={}", id);
+                    return new CarNotFoundException(id);
+                });
         return carMapper.toDtoCar(carEntity);
     }
 

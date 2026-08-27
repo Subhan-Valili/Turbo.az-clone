@@ -138,6 +138,28 @@ public enum ErrorCode {
             "''{0}'' rolu verilənlər bazasında tapılmadı.",
             HttpStatus.INTERNAL_SERVER_ERROR),
 
+    // --- Car module ---
+    CAR_NOT_FOUND(
+            "CAR_NOT_FOUND",
+            "Car not found",
+            "ID ''{0}'' olan maşın tapılmadı.",
+            HttpStatus.NOT_FOUND),
+    BRAND_NOT_FOUND(
+            "BRAND_NOT_FOUND",
+            "Brand not found",
+            "ID ''{0}'' olan marka tapılmadı.",
+            HttpStatus.NOT_FOUND),
+    MODEL_NOT_FOUND(
+            "MODEL_NOT_FOUND",
+            "Model not found",
+            "ID ''{0}'' olan model tapılmadı.",
+            HttpStatus.NOT_FOUND),
+    NO_IMAGES_PROVIDED(
+            "NO_IMAGES_PROVIDED",
+            "No images provided",
+            "Ən azı 1 şəkil göndərilməlidir.",
+            HttpStatus.BAD_REQUEST),
+
     UNKNOWN(
             "UNKNOWN",
             "Unknown error",
