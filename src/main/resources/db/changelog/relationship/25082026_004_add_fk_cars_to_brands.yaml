@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_004_add_fk_cars_to_brands
+      author: Subhan
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: cars
+            baseColumnNames: brand_id
+            referencedTableName: brands
+            referencedColumnNames: id
+            constraintName: fk_cars_to_brands
+            onDelete: CASCADE

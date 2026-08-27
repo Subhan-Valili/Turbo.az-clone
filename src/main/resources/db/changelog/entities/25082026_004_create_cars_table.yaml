@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_004_create_cars_table
+      author: Subhan
+      changes:
+        - createTable:
+            tableName: cars
+            columns:
+              - column: { name: id, type: BIGINT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: created_at, type: timestamp, constraints: { nullable: false } }
+              - column: { name: updated_at, type: timestamp }
+              - column: { name: price, type: "decimal(19,2)" , constraints: { nullable: false } }
+              - column: { name: year, type: integer , constraints: { nullable: false } }
+              - column: { name: mileage, type: integer , constraints: { nullable: false } }
+              - column: { name: engine_volume, type: "decimal(19,2)" , constraints: { nullable: false } }
+              - column: { name: hp, type: integer , constraints: { nullable: false } }
+              - column: { name: description, type: text , constraints: { nullable: false } }
+              - column: { name: fuel_type, type: varchar , constraints: { nullable: false } }
+              - column: { name: transmission, type: varchar , constraints: { nullable: false } }
+              - column: { name: indexed, type: boolean , defaultValueBoolean: false, constraints: { nullable: false } }
+              - column: { name: user_id, type: bigint }
+              - column: { name: brand_id, type: bigint , constraints: { nullable: false } }
+              - column: { name: model_id, type: bigint , constraints: { nullable: false } }

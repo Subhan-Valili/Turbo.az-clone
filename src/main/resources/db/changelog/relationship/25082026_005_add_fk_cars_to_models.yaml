@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_005_add_fk_cars_to_models
+      author: Subhan
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: cars
+            baseColumnNames: model_id
+            referencedTableName: models
+            referencedColumnNames: id
+            constraintName: fk_cars_to_models
+            onDelete: CASCADE

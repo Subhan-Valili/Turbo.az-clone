@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 24082026_001_create_users_table
+      author: Subhan
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column: { name: id, type: BIGINT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: created_at, type: timestamp, constraints: { nullable: false } }
+              - column: { name: updated_at, type: timestamp }
+              - column: { name: name, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: surname, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: phone_number, type: varchar(100), constraints: { nullable: false } }
+              - column: { name: email, type: varchar(100), constraints: { nullable: false, unique: true } }
+              - column: { name: password, type: varchar(255), constraints: { nullable: false } }
+              - column: { name: status, type: varchar, defaultValue: "ACTIVE", constraints: { nullable: false } }

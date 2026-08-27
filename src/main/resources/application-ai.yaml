@@ -1,0 +1,13 @@
+spring:
+  ai:
+    google:
+      genai:
+        api-key: ${AI_API_KEY}
+        chat:
+          options:
+            model: gemini-3.6-flash
+        embedding:
+          api-key: ${AI_API_KEY}
+          text:
+            options:
+              model: gemini-embedding-001

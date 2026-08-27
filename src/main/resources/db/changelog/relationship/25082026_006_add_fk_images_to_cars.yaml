@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_006_add_fk_images_to_cars
+      author: Subhan
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: images
+            baseColumnNames: car_id
+            referencedTableName: cars
+            referencedColumnNames: id
+            constraintName: fk_images_to_cars
+            onDelete: CASCADE

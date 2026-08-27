@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_005_create_models_table
+      author: Subhan
+      changes:
+        - createTable:
+            tableName: models
+            columns:
+              - column: { name: id, type: BIGINT, autoIncrement: true, constraints: { primaryKey: true, nullable: false } }
+              - column: { name: created_at, type: timestamp, constraints: { nullable: false } }
+              - column: { name: updated_at, type: timestamp }
+              - column: { name: name, type: varchar(50), constraints: { nullable: false } }
+              - column: { name: brand_id, type: bigint, constraints: { nullable: false } }
+

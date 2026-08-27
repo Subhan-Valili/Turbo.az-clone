@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_001_create_users_roles_table
+      author: Subhan
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column: { name: user_id, type: bigint, constraints: { nullable: false } }
+              - column: { name: role_id, type: bigint, constraints: { nullable: false } }
+
+        - addPrimaryKey:
+            tableName: users_roles
+            columnNames: user_id, role_id
+            constraintName: pk_users_roles
+
+        - addForeignKeyConstraint:
+            baseTableName: users_roles
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_users_roles_to_users
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: users_roles
+            baseColumnNames: role_id
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_users_roles_to_roles
+            onDelete: CASCADE

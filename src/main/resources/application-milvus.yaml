@@ -1,0 +1,11 @@
+spring:
+  ai:
+    vectorstore:
+      milvus:
+        client:
+          host: localhost
+          port: 19530
+        collection-name: turbo_az_vectors
+        database-name: default
+        embedding-dimension: 3072
+        initialize-schema: true

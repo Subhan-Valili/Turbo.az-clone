@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 25082026_003_add_fk_cars_to_users
+      author: Subhan
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: cars
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_cars_to_users
+            onDelete: CASCADE

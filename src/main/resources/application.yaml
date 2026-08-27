@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: turbo.az-clone
+  profiles:
+    include:
+      - db
+      - email
+      - redis
+      - security
+      - ai
+      - milvus
+
+
+server:
+  port: 8085
